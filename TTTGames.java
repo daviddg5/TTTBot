@@ -139,7 +139,7 @@ public class TTTGames
                         if(p == 1)
                             sum = arrayMult(features, w1);
                         else
-                            sum = arrayMult(features,w2);
+                            sum = arrayMult(features, w2);
                         if(sum > max)
                         {
                             max = sum;
