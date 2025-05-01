@@ -1,3 +1,4 @@
+import java.util.Scanner;
 public class TTTGames
 {
     private int[] weights1;
@@ -100,7 +101,7 @@ public class TTTGames
             else if(z==2)
                 w1 = arrayInverse(w2);
         }
-        return w1;
+        return w2;
     }
 
     //w1 are players 1's weights that determine how they play
@@ -173,5 +174,107 @@ public class TTTGames
         }
         }
         return winner;
+    }
+
+    int playHuman(int size, double[] weights)
+    {
+        BoardExtraction be = new BoardExtraction();
+        int win = size/2 + 2;
+        int winner = 0;
+        int[][] board = new int[size][size];
+        int[] features;
+        boolean done = false;
+        double max = -99999999;
+        int index1 = 0;
+        int index2 = 0;
+        double sum = 0;
+        Scanner scan = new Scanner(System.in);
+        //loop until whole board is full
+        for(int x = 0; x < Math.pow(size, 2) / 2; x++)
+        {
+            //human goes
+            System.out.println("Please enter your move x coordinate");
+            int a = scan.nextInt();
+            System.out.println("Please enter your move y coordinate");
+            int b = scan.nextInt();
+            board[a][b] = 1;
+            displayBoard(board);
+            features = be.countWins(board);
+            if(features[2*win - 2] > 0)
+            {
+                winner = 1;
+                x = 100000;
+                done = true;
+            }
+            //computer goes
+            if(!done)
+            for(int i = 0; i < size; i++)
+                {
+                    //Look for best Move
+                    for(int j = 0; j < size; j++)
+                    {
+                        //perform feature extraction assuming player p plays at (i,j)
+                        if(board[i][j] == 0)
+                        {
+                            board[i][j] = 2;
+                            features = be.countWins(board);
+                            sum = arrayMult(features, weights);
+                            if(sum > max)
+                            {
+                                index1 = i;
+                                index2 = j;
+                                //System.out.println("Player " + p + ", " + "Old Max: " + max + ", New Max: " + sum + ", Index ( " + index1 + ", " + index2 + ")");
+                                max = sum;
+                            }
+                            //return board state back
+                            board[i][j] = 0;
+                        }
+                    }
+                }
+            board[index1][index2] = 2;
+            displayBoard(board);
+            max = -999999;
+            features = be.countWins(board);
+            if(features[2*win - 1] > 0)
+            {
+                winner = 2;
+                x = 100000;
+            }
+        }
+        scan.close();
+        return winner;
+    }
+    void displayBoard(int[][] board)
+    {
+        int size = board[0].length;
+        for(int i = 0; i < size; i++)
+        {
+            for(int a = 0; a < 5*size; a++)
+            {
+                System.out.print("-");
+            }
+            System.out.println();
+            for(int j = 0; j < size; j++)
+            {
+                if(board[i][j] == 1)
+                {
+                    System.out.print("| X |");
+                }
+                else if(board[i][j] == 2)
+                {
+                    System.out.print("| O |");
+                }
+                else
+                {
+                    System.out.print("|   |");
+                }
+            }
+            System.out.println();
+        }
+        for(int a = 0; a < 5*size; a++)
+            {
+                System.out.print("-");
+            }
+        System.out.println("\n\n");
     }
 }
