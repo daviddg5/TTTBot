@@ -1,20 +1,26 @@
-public class TTT 
+public class BoardExtraction 
 {
     public int[][] board;
-    public int win;
-    public int size;
-    public TTT(int boardSize)
+    private int win;
+    private int size;
+    public BoardExtraction()
     {
-        board = new int[size][size];
-        size = boardSize;
+    }
+
+    //Very Important, Essially our Feature Extraction
+    //Reads the Board State and Counts # of ways Player 1 or 2 Can win
+    // Feature Vector = {# of unblocked single x's, # of unblocked single 0's, # of unblocked double x's ...}
+    // Automatically Scales to Different Board Sizes
+    // Ex. a 5x5 needs 4 to win so it counts up to quadruples for each player
+    //Feature Vector Length = 2 times # in a row to win
+    public int[] countWins(int[][] tttBoard)
+    {
+        board = tttBoard;
+        size = board[0].length;
         if(size%2 == 0)
             win = size/2 + 1;
         else
             win = size/2 + 2;
-    }
-
-    public int[] countWins()
-    {
         int[] vertWins1 = orthoWins(0, 0);
         int[] vertWins2 = orthoWins(1, 0);
         int[] horWins1 = orthoWins(0, 1);
@@ -30,7 +36,7 @@ public class TTT
         return totalWins;
     }
 
-    public int[] orthoWins(int player, int direction)
+    private int[] orthoWins(int player, int direction)
     {
 
         int[] orthoWins = new int[win];
@@ -73,7 +79,7 @@ public class TTT
         return orthoWins;
     }
 
-    public int[] diagnalWins1(int player)
+    private int[] diagnalWins1(int player)
     {
         int[] diagWins = new int[win];
         int[] diagLine = new int[size];
@@ -115,7 +121,7 @@ public class TTT
         return diagWins;
     }
 
-    public int[] diagnalWins2(int player)
+    private int[] diagnalWins2(int player)
     {
         int[] diagWins = new int[win];
         int[] diagLine = new int[size];

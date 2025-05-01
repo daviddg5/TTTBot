@@ -2,13 +2,14 @@ public class Main
 {
     public static void main(String[] args)
     {
-        TTT game = new TTT(5);
-        int [][] board = {{0,0,0,2,0}, {0,0,1,2,0}, {0,1,0,1,0}, {0,0,0,0,0}, {0,0,0,0,0}};
-        game.board = board;
-        int[] features = game.countWins();
-        for(int i = 0; i < features.length; i++)
+        TTTGames game = new TTTGames();
+        double[] w1 = {1,-1,1,-1,1,-1};
+        double[] w2 = {-1,1,-1,1,-1,1};
+        double[] w = game.train(4, w1, w2, 5);
+       
+         for(int i = 0; i < w.length; i++)
         {
-            System.out.print(features[i] + ",  ");
+            System.out.print(w[i] + ", ");
         }
     }
 }
