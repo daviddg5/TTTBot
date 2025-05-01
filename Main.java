@@ -3,14 +3,11 @@ public class Main
     public static void main(String[] args)
     {
         TTTGames game = new TTTGames();
+        BoardExtraction be = new BoardExtraction();
         //Game Board Size
         int size = 5;
         //Amount in a row to win
-        int win = 0;
-        if(size%2 == 0)
-            win = size/2 + 1;
-        else
-            win = size/2 + 2;
+        int win = size/2 + 2;
         double[] w1 = new double[2*win];
         double[] w2 = new double[2*win];
         //Generate Initial Weights
@@ -31,7 +28,7 @@ public class Main
         }
         double[] w = game.train(5, w1, w2, 5);
        
-         for(int i = 0; i < w.length; i++)
+        for(int i = 0; i < w.length; i++)
         {
             System.out.print(w[i] + ", ");
         }

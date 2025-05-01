@@ -107,12 +107,8 @@ public class TTTGames
     public int playGame(int size, double[] w1, double[] w2)
     {
         BoardExtraction be = new BoardExtraction();
-        int win;
+        int win = size/2 + 2;
         int winner = 0;
-        if(size%2 == 0)
-            win = size/2 + 1;
-        else
-            win = size/2 + 2;
         int[][] board = new int[size][size];
         int[] features;
         boolean done = false;
@@ -142,9 +138,10 @@ public class TTTGames
                             sum = arrayMult(features, w2);
                         if(sum > max)
                         {
-                            max = sum;
                             index1 = i;
                             index2 = j;
+                            //System.out.println("Player " + p + ", " + "Old Max: " + max + ", New Max: " + sum + ", Index ( " + index1 + ", " + index2 + ")");
+                            max = sum;
                         }
                         //return board state back
                         board[i][j] = 0;

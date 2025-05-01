@@ -17,10 +17,7 @@ public class BoardExtraction
     {
         board = tttBoard;
         size = board[0].length;
-        if(size%2 == 0)
-            win = size/2 + 1;
-        else
-            win = size/2 + 2;
+        win = size/2 + 2;
         int[] vertWins1 = orthoWins(0, 0);
         int[] vertWins2 = orthoWins(1, 0);
         int[] horWins1 = orthoWins(0, 1);
