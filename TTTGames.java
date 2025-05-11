@@ -37,7 +37,7 @@ public class TTTGames
         return a;
     }
 
-    public double[] train(int size, double[] initialW1, double[] initialW2, double learningRate)
+    public double[] train(int size, double[] initialW1, double[] initialW2, double learningRate, int games)
     {
         double r = learningRate;
         double[] w1 = initialW1;
@@ -47,7 +47,7 @@ public class TTTGames
         double n = 0;
         double sign = 0;
         double index = 0;
-        for(int x = 0; x < 10000; x++)
+        for(int x = 0; x < games; x++)
         {
             //Only Modifiing Weights for Player 2
             for(int i = 0; i < w2.length; i++)

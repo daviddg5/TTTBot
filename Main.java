@@ -19,18 +19,24 @@ public class Main
         {
             if((i+2)%2==0)
             {
-                w1[i] = 1;
-                w2[i] = -1;
+                w1[i] = Math.pow(i,2);
+                w2[i] = Math.pow(i,2) * -1;
             }
             else
             {
-                w1[i] = -1;
-                w2[i] = 1;
+                w1[i] = Math.pow(i,2) * -1;
+                w2[i] = Math.pow(i,2);
             }
         }
+
         System.out.println("Would you like to\n1. Play a Game\n2. Watch a game");
         int c = scan.nextInt();
-        double[] w = game.train(b, w1, w2, 5);
+        int games = 100000;
+        if(b >= 5 && b <= 7)
+            games = 10000;
+        if(b > 7)
+            games = 1000;
+        double[] w = game.train(b, w1, w2, 5, games);
         System.out.println("AI Weights");
         for(int i = 0; i < w.length; i++)
         {
@@ -50,8 +56,8 @@ public class Main
         }
         else if(c == 2)
         {
-            double[] weights2 = game.train(b, w1, w2, 5);
-            System.out.println("AI 2 Weights");
+            double[] weights2 = game.train(b, w1, w2, 5, games);
+            System.out.println("\nAI 2 Weights");
             for(int i = 0; i < w.length; i++)
             {
                 System.out.print(w[i] + ", ");
