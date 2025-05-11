@@ -39,39 +39,106 @@ public class BoardExtraction
         int[] orthoWins = new int[win];
         int count = 0;
         int maxRun = 0;
+        int distance = 1;
+        boolean distOn = false;
         for(int i = 0; i < size; i++)
         {
             for(int j = 0; j < size; j++)
             {
-                //if direction = 0 count all the vertical wins
+                //if direction = 0 count all the horizontal wins
                 if(direction == 0)
                 {
                     if(board[i][j] == 0)
-                    maxRun ++;
+                    {
+                        if(distOn)
+                            distance ++;
+                        maxRun++;
+
+                    }
                     else if(board[i][j] == (player + 1))
                     {
-                        maxRun++;
-                        count++;
+                        if(distance < win)
+                        {
+                            maxRun++;
+                            count++;
+                        }
+                        distance = 1;
+                        distOn = true;
                     }
-                    else maxRun = 0; 
+                    else if(maxRun < win)
+                        maxRun = 0;
                 }
-                //if direction = 1 count all the horizaontal wins
+                //if direction = 1 count all the vertical wins
                 else if(direction == 1)
                 {
                     if(board[j][i] == 0)
-                    maxRun ++;
+                    {
+                        if(distOn)
+                            distance++;
+                        maxRun++;
+                    }
                     else if(board[j][i] == (player + 1))
                     {
-                        maxRun++;
-                        count++;
+                        if(distance < win)
+                        {
+                            maxRun++;
+                            count++;
+                        }
+                        distance = 1;
+                        distOn = true;
                     }
-                    else maxRun = 0; 
+                    else if(maxRun < win)
+                        maxRun = 0;
                 }
             }
             if(maxRun >= win && count > 0)
-                orthoWins[count-1] = orthoWins[count-1] + 1;
+            {
+                if(count < win)
+                    orthoWins[count-1] = orthoWins[count-1] + 1;
+                //double check all in a row to win
+                else
+                {
+                    maxRun = 0;
+                    if(direction == 0)
+                    {
+                        for(int x = 0; x < size; x++)
+                        {
+                            if(board[i][x] == (player + 1))
+                                {
+                                    count++;
+                                    maxRun = count;
+                                }
+                            else
+                                count = 0;
+                        }
+                        if(maxRun >= win)
+                            orthoWins[win-1] = orthoWins[win-1] + 1;
+                        else
+                            orthoWins[0] = orthoWins[0] + maxRun;
+                    }
+                    else if(direction == 1)
+                    {
+                        for(int x = 0; x < size; x++)
+                        {
+                            if(board[x][i] == (player + 1))
+                            {
+                                count++;
+                                maxRun = count;
+                            }
+                            else
+                                count = 0;
+                        }
+                        if(maxRun >= win)
+                            orthoWins[win-1] = orthoWins[win-1] + 1;
+                        else
+                            orthoWins[0] = orthoWins[0] + maxRun;
+                    }
+                }
+            }
             count = 0;
             maxRun = 0;
+            distance = 1;
+            distOn = false;
         }
         return orthoWins;
     }
@@ -82,6 +149,8 @@ public class BoardExtraction
         int[] diagLine = new int[size];
         int count = 0;
         int maxRun = 0;
+        int distance = 0;
+        boolean distOn = false;
         int end = size/2 - 1;
         for(int offset = -1 * end; offset <= end; offset++)
         {
@@ -98,22 +167,57 @@ public class BoardExtraction
                 else
                 diagLine[i] = board[i+offset][i];
             }
-            //
+            //read off the line to count how many in a row
             for(int i = 0; i < size - absValOffset; i++)
             {
                 if(diagLine[i] == 0)
-                maxRun++;
+                {
+                    if(distOn)
+                        distance++;
+                    maxRun++;
+                }
                 else if(diagLine[i] == (player + 1))
                 {
-                    maxRun++;
-                    count++;
+                    if(distance < win)
+                    {
+                        maxRun++;
+                        count++;
+                    }
+                    distance = 1;
+                    distOn = true;
                 }
-                else maxRun = 0;
+                else if(maxRun < win)
+                        maxRun = 0;
             }
             if(maxRun >= win && count > 0)
-                diagWins[count-1] = diagWins[count-1] + 1;
+            {
+                if(count < win)
+                    diagWins[count-1] = diagWins[count-1] + 1;
+                //for a win, double check there all in a row
+                else
+                {
+                    count = 0;
+                    maxRun = 0;
+                    for(int x = 0; x < size - absValOffset ;x++)
+                    {
+                        if(diagLine[x] == (player + 1))
+                        {
+                            count++;
+                            maxRun = count;
+                        }
+                        else
+                            count = 0;
+                    }   
+                    if(maxRun >= win)
+                        diagWins[win-1] = diagWins[win-1] + 1;
+                    else
+                        diagWins[0] = diagWins[0] + maxRun;
+                }
+            }
             count = 0;
             maxRun = 0;
+            distance = 1;
+            distOn = false;
         }
         return diagWins;
     }
@@ -124,6 +228,9 @@ public class BoardExtraction
         int[] diagLine = new int[size];
         int count = 0;
         int maxRun = 0;
+        int distance = 1;
+        boolean distOn = false;
+        boolean isWin = false;
         int end = size/2 - 1;
         for(int offset = -1 * end; offset <= end; offset++)
         {
@@ -140,22 +247,57 @@ public class BoardExtraction
                 else
                 diagLine[i] = board[board.length - i - offset - 1][i];
             }
-            //
+            //read off our line to count how many in a row
             for(int i = 0; i < size - absValOffset; i++)
             {
                 if(diagLine[i] == 0)
-                maxRun++;
+                {
+                    if(distOn)
+                        distance++;
+                    maxRun++;
+                }
                 else if(diagLine[i] == (player + 1))
                 {
-                    maxRun++;
-                    count++;
+                    if(distance < win)
+                    {
+                        maxRun++;
+                        count++;
+                    }
+                    distance = 1;
+                    distOn = true;
                 }
-                else maxRun = 0;
+                else if(maxRun < win)
+                        maxRun = 0;
             }
             if(maxRun >= win && count > 0)
-                diagWins[count-1] = diagWins[count-1] + 1;
+            {
+                if(count != (win - 1))
+                    diagWins[count-1] = diagWins[count-1] + 1;
+                //for a win, double check there all in a row
+                else
+                {
+                    count = 0;
+                    maxRun = 0;
+                    for(int x = 0; x < size - absValOffset ;x++)
+                    {
+                        if(diagLine[x] == (player + 1))
+                        {
+                            count++;
+                            maxRun = count;
+                        }
+                        else
+                            count = 0;
+                    }   
+                    if(maxRun >= win)
+                        diagWins[win-1] = diagWins[win-1] + 1;
+                    else
+                        diagWins[0] = diagWins[0] + maxRun;
+                }
+            }
             count = 0;
             maxRun = 0;
+            distance = 1;
+            distOn = false;
         }
         return diagWins;
     }

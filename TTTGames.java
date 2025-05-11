@@ -1,8 +1,6 @@
 import java.util.Scanner;
 public class TTTGames
 {
-    private int[] weights1;
-    private int[] weights2;
 
     private double arrayMult(int[] array1, double[] array2)
     {
@@ -80,7 +78,7 @@ public class TTTGames
             }
             //Play a game
             //System.out.print("\nGame: " + x);
-            int z = playGame(size, w1, w2);
+            int z = playGame(size, w1, w2, false);
             
             /*
             System.out.println(z);
@@ -105,7 +103,7 @@ public class TTTGames
     }
 
     //w1 are players 1's weights that determine how they play
-    public int playGame(int size, double[] w1, double[] w2)
+    public int playGame(int size, double[] w1, double[] w2, boolean watch)
     {
         BoardExtraction be = new BoardExtraction();
         int win = size/2 + 2;
@@ -154,7 +152,8 @@ public class TTTGames
             {
                 //Play best move
                 board[index1][index2] = p;
-                //System.out.print("P" + p + "(" + index1 + ", " + index2 + ")  ");
+                if(watch)
+                    displayBoard(board);
             }
             max = -999999999;
             //Check to see if someone won
@@ -188,16 +187,30 @@ public class TTTGames
         int index1 = 0;
         int index2 = 0;
         double sum = 0;
+        boolean badMove = false;
         Scanner scan = new Scanner(System.in);
         //loop until whole board is full
         for(int x = 0; x < Math.pow(size, 2) / 2; x++)
         {
             //human goes
-            System.out.println("Please enter your move x coordinate");
-            int a = scan.nextInt();
-            System.out.println("Please enter your move y coordinate");
-            int b = scan.nextInt();
-            board[a][b] = 1;
+            do
+            {
+                System.out.println("Please enter your move x coordinate");
+                int a = scan.nextInt();
+                System.out.println("Please enter your move y coordinate");
+                int b = scan.nextInt();
+                if(board[a][b] == 0)
+                {
+                    board[a][b] = 1;
+                    badMove = false;
+                }
+                else
+                {
+                    System.out.println("Sorry that space has already been taken");
+                    badMove = true; 
+                }
+            } while(badMove);
+            badMove = false;
             displayBoard(board);
             features = be.countWins(board);
             if(features[2*win - 2] > 0)

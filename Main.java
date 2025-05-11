@@ -28,21 +28,43 @@ public class Main
                 w2[i] = 1;
             }
         }
-        double[] w = game.train(5, w1, w2, 5);
+        System.out.println("Would you like to\n1. Play a Game\n2. Watch a game");
+        int c = scan.nextInt();
+        double[] w = game.train(b, w1, w2, 5);
         System.out.println("AI Weights");
         for(int i = 0; i < w.length; i++)
         {
             System.out.print(w[i] + ", ");
         }
-        System.out.println("\nReady to play a Game");
-        int c = game.playHuman(b,w);
         if(c == 1)
-            System.out.println("You Win");
-        else if (c==2)
-            System.out.println("You Lost");
-        else
-            System.out.println("You Tied");
-        scan.close();
+        {
+            System.out.println("\nReady to play a Game");
+            int d = game.playHuman(b,w);
+            if(d == 1)
+                System.out.println("You Win");
+            else if (d==2)
+                System.out.println("You Lost");
+            else
+                System.out.println("You Tied");
+            scan.close();
+        }
+        else if(c == 2)
+        {
+            double[] weights2 = game.train(b, w1, w2, 5);
+            System.out.println("AI 2 Weights");
+            for(int i = 0; i < w.length; i++)
+            {
+                System.out.print(w[i] + ", ");
+            }
+            int e = game.playGame(b, w, weights2, true);
+            if(e == 1)
+                System.out.println("Player 1 Wins");
+            else if (e==2)
+                System.out.println("Player 2 Wins");
+            else
+                System.out.println("Its a Tie");
+
+        }
     }
 }
 
