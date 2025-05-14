@@ -53,7 +53,7 @@ public class TTTGames
             for(int i = 0; i < w2.length; i++)
             {
                 sign = Math.random();
-                n = Math.random() * r;
+                n = Math.random() * r * Math.pow(2,i/2);
                 //if you roll a negative sign
                 if(sign < 0.5)
                 {
@@ -148,7 +148,7 @@ public class TTTGames
                 }
             }
             //To account for player 1 going first and last
-            if(x < (Math.pow(size, 2) / 2 - 1) || p == 1)
+            if(x < (Math.pow(2, size) / 2 - 1) || p == 1)
             {
                 //Play best move
                 board[index1][index2] = p;
@@ -196,9 +196,9 @@ public class TTTGames
             do
             {
                 System.out.println("Please enter your move x coordinate");
-                int a = scan.nextInt();
-                System.out.println("Please enter your move y coordinate");
                 int b = scan.nextInt();
+                System.out.println("Please enter your move y coordinate");
+                int a = scan.nextInt();
                 if(board[a][b] == 0)
                 {
                     board[a][b] = 1;

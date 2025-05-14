@@ -19,16 +19,19 @@ public class Main
         {
             if((i+2)%2==0)
             {
-                w1[i] = Math.pow(i,2);
-                w2[i] = Math.pow(i,2) * -1;
+                w1[i] = Math.pow(2,i/2);
+                w2[i] = Math.pow(2,1/2) * -1;
             }
             else
             {
-                w1[i] = Math.pow(i,2) * -1;
-                w2[i] = Math.pow(i,2);
+                w1[i] = Math.pow(2,i/2) * -1;
+                w2[i] = Math.pow(2,i/2);
             }
         }
-
+        for(int i = 0; i < w1.length;i++)
+        {
+            System.out.print(w1[i] + " ");
+        }
         System.out.println("Would you like to\n1. Play a Game\n2. Watch a game");
         int c = scan.nextInt();
         int games = 100000;
