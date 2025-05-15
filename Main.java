@@ -28,10 +28,6 @@ public class Main
                 w2[i] = Math.pow(2,i/2);
             }
         }
-        for(int i = 0; i < w1.length;i++)
-        {
-            System.out.print(w1[i] + " ");
-        }
         System.out.println("Would you like to\n1. Play a Game\n2. Watch a game");
         int c = scan.nextInt();
         int games = 100000;

@@ -195,9 +195,9 @@ public class TTTGames
             //human goes
             do
             {
-                System.out.println("Please enter your move x coordinate");
+                System.out.println("Please enter your move x coordinate (position across the top)");
                 int b = scan.nextInt();
-                System.out.println("Please enter your move y coordinate");
+                System.out.println("Please enter your move y coordinate (position going down)");
                 int a = scan.nextInt();
                 if(board[a][b] == 0)
                 {
